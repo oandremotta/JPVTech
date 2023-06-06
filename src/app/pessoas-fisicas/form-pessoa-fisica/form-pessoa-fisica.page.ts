@@ -4,7 +4,9 @@ import { PessoaFisica } from '../pessoa-fisica.model';
 import { PessoaFisicaService } from '../pessoa-fisica.service';
 import { NavController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
-import { formatDate } from '@angular/common';
+import { CpfPipe } from 'src/app/shared/pipes/cpf.pipe';
+import { CurrencyBrPipe } from 'src/app/shared/pipes/currency-br.pipe';
+import { DateFormatPipe } from 'src/app/shared/pipes/date.pipe';
 
 @Component({
   selector: 'app-form-pessoa-fisica',
@@ -14,12 +16,22 @@ import { formatDate } from '@angular/common';
 export class FormPessoaFisicaPage implements OnInit {
   pessoaFisica?: PessoaFisica;
   form!: FormGroup;
+  private currencyBrPipe!: CurrencyBrPipe;
+  private cpfPipe!: CpfPipe;
+  private datePipe! : DateFormatPipe;
 
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
-    private pessoaFisicaService: PessoaFisicaService
-  ) {}
+    private pessoaFisicaService: PessoaFisicaService,
+    cpfPipe: CpfPipe,
+    currencyBrPipe: CurrencyBrPipe,
+    datePipe: DateFormatPipe,
+  ) {
+    this.cpfPipe = cpfPipe;
+    this.currencyBrPipe = currencyBrPipe
+    this.datePipe = datePipe
+  }
 
   ngOnInit() {
     this.route.paramMap.subscribe((paramMap) => {
@@ -41,14 +53,17 @@ export class FormPessoaFisicaPage implements OnInit {
               Validators.required
             ),
             dataNascimento: new FormControl(
-              pessoa!.dataDeNascimento,
+              this.datePipe.transform(pessoa!.dataDeNascimento!),
               Validators.required
             ),
             valorRenda: new FormControl(
-              pessoa!.valorDaRenda,
+              this.currencyBrPipe.transform(pessoa!.valorDaRenda),
               Validators.required
             ),
-            cpf: new FormControl(pessoa?.cpf, Validators.required),
+            cpf: new FormControl(
+              this.cpfPipe.transform(pessoa!.cpf),
+              Validators.required
+            ),
           });
         });
       }
@@ -60,8 +75,8 @@ export class FormPessoaFisicaPage implements OnInit {
     if (this.form.valid) {
       const dataNascimento = this.form.get('dataNascimento')?.value;
       const [dia, mes, ano] = dataNascimento
-      .match(/(\d{2})\/(\d{2})\/(\d{4})/)
-      ?.slice(1);
+        .match(/(\d{2})\/(\d{2})\/(\d{4})/)
+        ?.slice(1);
 
       const dataFormatada = new Date(Number(ano), Number(mes) - 1, Number(dia));
       const cpf = this.form.get('cpf')?.value;
