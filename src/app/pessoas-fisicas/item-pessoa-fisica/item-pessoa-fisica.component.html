@@ -1,0 +1,35 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title class="ion-text-center nome-completo">
+      {{ pessoaFisica.nomeCompleto }}
+    </ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+    <ion-item>
+      <ion-icon name="document-outline" slot="start"></ion-icon>
+      <ion-label>CPF:</ion-label>
+      <ion-text>{{ pessoaFisica.cpf }}</ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-icon slot="start" name="wallet-outline"></ion-icon>
+      <ion-label>Renda:</ion-label>
+      <ion-text>{{ pessoaFisica.valorDaRenda }}</ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-icon slot="start" name="calendar-outline"></ion-icon>
+      <ion-label>Nascimento:</ion-label>
+      <ion-text>{{
+        pessoaFisica.dataDeNascimento | date : 'dd/MM/yyyy'
+      }}</ion-text>
+    </ion-item>
+  </ion-card-content>
+</ion-card>
+
+<style>
+  .nome-completo {
+    font-size: 18px;
+    font-weight: bold;
+  }
+</style>

@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Pessoas Físicas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/formulario/pessoa-fisica">
+        <ion-icon name="add" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list *ngIf="pessoasFisicas && pessoasFisicas.length > 0">
+          <ion-item-sliding
+            *ngFor="let pf of pessoasFisicas"
+            [routerLink]="['/', pf.id]"
+            detail
+          >
+            <app-item-pessoa-fisica
+              [pessoaFisica]="pf"
+            ></app-item-pessoa-fisica>
+          </ion-item-sliding>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col class="ion-text-center">
+        <ion-text
+          *ngIf="!pessoasFisicas || pessoasFisicas.length === 0"
+          color="medium"
+        >
+          Nenhuma Pessoa Física cadastrada
+        </ion-text>
+        <p>
+          <a
+            *ngIf="!pessoasFisicas || pessoasFisicas.length === 0"
+            routerLink="/formulario/pessoa-fisica"
+            class="cadastro-link"
+          >
+            Cadastrar
+          </a>
+        </p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

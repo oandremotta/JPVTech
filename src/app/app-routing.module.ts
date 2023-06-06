@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { PessoasFisicasPageRoutingModule } from './pessoas-fisicas/pessoas-fisicas-routing.module';
 
 const routes: Routes = [
   {
-    path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
-  },
-  {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full'
+    loadChildren: () => import('./pessoas-fisicas/pessoas-fisicas.module').then(m => m.PessoasFisicasPageModule)
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+    PessoasFisicasPageRoutingModule,
   ],
   exports: [RouterModule]
 })

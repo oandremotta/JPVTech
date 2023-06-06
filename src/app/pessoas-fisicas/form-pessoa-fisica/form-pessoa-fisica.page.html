@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Formulário</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onFormSubmit()">
+        <ion-icon name="checkmark" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card class="form-card">
+    <ion-card-content>
+      <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
+        <ion-item>
+          <ion-label position="floating">Nome completo</ion-label>
+          <ion-input formControlName="nomeCompleto" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">CPF</ion-label>
+          <ion-input formControlName="cpf" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Data de nascimento</ion-label>
+          <ion-input formControlName="dataNascimento" required></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="floating">Valor da renda</ion-label>
+          <ion-input formControlName="valorRenda" required></ion-input>
+        </ion-item>
+        <ion-button expand="full" type="submit" class="submit-button">Enviar</ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
