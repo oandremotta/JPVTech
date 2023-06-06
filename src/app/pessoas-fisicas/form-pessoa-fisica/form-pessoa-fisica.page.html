@@ -21,15 +21,15 @@
         </ion-item>
         <ion-item>
           <ion-label position="floating">CPF</ion-label>
-          <ion-input formControlName="cpf" required></ion-input>
+          <ion-input formControlName="cpf" cpfFormat required maxlength="14"></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Data de nascimento</ion-label>
-          <ion-input formControlName="dataNascimento" required></ion-input>
+          <ion-input formControlName="dataNascimento" dateFormat required></ion-input>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Valor da renda</ion-label>
-          <ion-input formControlName="valorRenda" required></ion-input>
+          <ion-input formControlName="valorRenda" appCurrencyInput required></ion-input>
         </ion-item>
         <ion-button expand="full" type="submit" class="submit-button">Enviar</ion-button>
       </form>

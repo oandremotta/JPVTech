@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormPessoaFisicaPageRoutingModule } from './form-pessoa-fisica-routing.module';
 
 import { FormPessoaFisicaPage } from './form-pessoa-fisica.page';
+import { SharedModule } from 'src/app/shared/modules/shared.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { FormPessoaFisicaPage } from './form-pessoa-fisica.page';
     IonicModule,
     FormPessoaFisicaPageRoutingModule,
     ReactiveFormsModule,
+    SharedModule
   ],
   declarations: [FormPessoaFisicaPage]
 })

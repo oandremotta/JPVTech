@@ -17,11 +17,11 @@
       </ion-item>
       <ion-item>
         <ion-note slot="start">CPF:</ion-note>
-        <ion-label slot="end" mask="'000.000.00.00'">{{ pessoaFisica?.cpf }}</ion-label>
+        <ion-label slot="end">{{ pessoaFisica?.cpf | cpf }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-note slot="start">Renda:</ion-note>
-        <ion-label slot="end">{{ pessoaFisica?.valorDaRenda }}</ion-label>
+        <ion-label slot="end">{{ pessoaFisica?.valorDaRenda | currencyBr }}</ion-label>
       </ion-item>
       <ion-item>
         <ion-note slot="start">Data de Nascimento:</ion-note>

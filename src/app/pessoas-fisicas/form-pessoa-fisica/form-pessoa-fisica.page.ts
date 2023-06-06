@@ -36,10 +36,19 @@ export class FormPessoaFisicaPage implements OnInit {
         this.pessoaFisicaService.getPessoaFisica(id).subscribe((pessoa) => {
           this.pessoaFisica = pessoa;
           this.form = new FormGroup({
-            nomeCompleto: new FormControl(pessoa!.nomeCompleto, Validators.required),
-            dataNascimento: new FormControl(pessoa!.dataDeNascimento, Validators.required),
-            valorRenda: new FormControl(pessoa!.valorDaRenda, Validators.required),
-            cpf: new FormControl(pessoa!.cpf, Validators.required),
+            nomeCompleto: new FormControl(
+              pessoa!.nomeCompleto,
+              Validators.required
+            ),
+            dataNascimento: new FormControl(
+              pessoa!.dataDeNascimento,
+              Validators.required
+            ),
+            valorRenda: new FormControl(
+              pessoa!.valorDaRenda,
+              Validators.required
+            ),
+            cpf: new FormControl(pessoa?.cpf, Validators.required),
           });
         });
       }
@@ -47,20 +56,29 @@ export class FormPessoaFisicaPage implements OnInit {
   }
 
   onFormSubmit() {
+    console.log(this.form.get('dataNascimento')?.value);
     if (this.form.valid) {
       const dataNascimento = this.form.get('dataNascimento')?.value;
-      const [dia, mes, ano] = dataNascimento.split('/');
+      const [dia, mes, ano] = dataNascimento
+      .match(/(\d{2})\/(\d{2})\/(\d{4})/)
+      ?.slice(1);
 
       const dataFormatada = new Date(Number(ano), Number(mes) - 1, Number(dia));
-
+      const cpf = this.form.get('cpf')?.value;
+      const cpfSemPontuacao = cpf?.replace(/[^\d]/g, '');
       const pessoa: PessoaFisica = {
         id: this.pessoaFisica?.id,
         nomeCompleto: this.form.get('nomeCompleto')?.value,
         dataDeNascimento: dataFormatada,
-        valorDaRenda: this.form.get('valorRenda')?.value,
-        cpf: this.form.get('cpf')?.value,
+        valorDaRenda: parseFloat(
+          this.form
+            .get('valorRenda')
+            ?.value?.replace(/[^\d,]/g, '')
+            .replace(',', '.')
+        ),
+        cpf: cpfSemPontuacao,
       };
-
+      console.log(pessoa.valorDaRenda);
       if (this.pessoaFisica?.id != null) {
         this.pessoaFisicaService.editarPessoaFisica(pessoa).subscribe(
           (pessoaEditada) => {

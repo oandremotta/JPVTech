@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PessoaFisica } from './pessoa-fisica.model';
-import { BehaviorSubject, map, take, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, take, tap } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class PessoaFisicaService {
   private pessoasFisicas = new BehaviorSubject<PessoaFisica[]>([]);
 
   constructor(private httpClient: HttpClient) {
-    this.fetchPlaces().subscribe(); // Chama a função fetchPlaces() no momento da criação do serviço
+    this.fetchPlaces().subscribe();
   }
 
   get getAllPessoasFisicas() {
@@ -40,15 +40,17 @@ export class PessoaFisicaService {
     );
   }
 
-  adicionarPessoaFisica(pessoa: PessoaFisica) {
+  adicionarPessoaFisica(pessoa: PessoaFisica): Observable<PessoaFisica> {
     return this.httpClient.post<PessoaFisica>(`${this.url}pessoa-fisica`, pessoa).pipe(
       tap((novaPessoa) => {
         const pessoasFisicas = this.pessoasFisicas.value;
         pessoasFisicas.push(novaPessoa);
         this.pessoasFisicas.next(pessoasFisicas); // Atualiza o BehaviorSubject após a adição
+        this.fetchPlaces().subscribe(); // Chama o fetchPlaces() para atualizar a lista
       })
     );
   }
+
 
   editarPessoaFisica(pessoa: PessoaFisica) {
     return this.httpClient.put<PessoaFisica>(`${this.url}pessoa-fisica/${pessoa.id}`, pessoa).pipe(

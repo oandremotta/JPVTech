@@ -9,19 +9,19 @@
     <ion-item>
       <ion-icon name="document-outline" slot="start"></ion-icon>
       <ion-label>CPF:</ion-label>
-      <ion-text>{{ pessoaFisica.cpf }}</ion-text>
+      <ion-text>{{ pessoaFisica.cpf | cpf}}</ion-text>
     </ion-item>
     <ion-item>
       <ion-icon slot="start" name="wallet-outline"></ion-icon>
       <ion-label>Renda:</ion-label>
-      <ion-text>{{ pessoaFisica.valorDaRenda }}</ion-text>
+      <ion-text>{{ pessoaFisica.valorDaRenda | currencyBr  }}</ion-text>
     </ion-item>
 
     <ion-item>
       <ion-icon slot="start" name="calendar-outline"></ion-icon>
       <ion-label>Nascimento:</ion-label>
       <ion-text>{{
-        pessoaFisica.dataDeNascimento | date : 'dd/MM/yyyy'
+        pessoaFisica.dataDeNascimento | date : "dd/MM/yyyy"
       }}</ion-text>
     </ion-item>
   </ion-card-content>

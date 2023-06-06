@@ -8,6 +8,7 @@ import { PessoasFisicasPageRoutingModule } from './pessoas-fisicas-routing.modul
 
 import { PessoasFisicasPage } from './pessoas-fisicas.page';
 import { ItemPessoaFisicaComponent } from './item-pessoa-fisica/item-pessoa-fisica.component';
+import { SharedModule } from '../shared/modules/shared.module';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { ItemPessoaFisicaComponent } from './item-pessoa-fisica/item-pessoa-fisi
     FormsModule,
     IonicModule,
     PessoasFisicasPageRoutingModule,
+    SharedModule
   ],
   declarations: [PessoasFisicasPage, ItemPessoaFisicaComponent]
 })

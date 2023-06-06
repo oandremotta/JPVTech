@@ -10,9 +10,11 @@ import { PessoaFisica } from '../pessoa-fisica.model';
   styleUrls: ['./detalhe-pessoa-fisica.page.scss'],
 })
 export class DetalhePessoaFisicaPage implements OnInit {
-  pessoaFisica! : PessoaFisica | undefined;
+  pessoaFisica: PessoaFisica | undefined;
+  userId: number | undefined;
+
   constructor(
-    private pessoaFisicaService : PessoaFisicaService,
+    private pessoaFisicaService: PessoaFisicaService,
     private navController: NavController,
     private route: ActivatedRoute
   ) {}
@@ -23,15 +25,19 @@ export class DetalhePessoaFisicaPage implements OnInit {
         this.navController.navigateBack('/');
         return;
       }
-      const id = parseInt(paramMap.get('id')!, 10);
-      this.pessoaFisicaService.getPessoaFisica(id).subscribe((pessoa)=>{
-        this.pessoaFisica = pessoa;
-      })
+      this.userId = parseInt(paramMap.get('id')!, 10);
+      this.getPessoaFisica(this.userId);
     });
   }
 
-  excluirPessoa(){
-    this.pessoaFisicaService.deletarPessoaFisica(this.pessoaFisica?.id!).subscribe(()=>{
+  getPessoaFisica(id: number) {
+    this.pessoaFisicaService.getPessoaFisica(id).subscribe((pessoa) => {
+      this.pessoaFisica = pessoa;
+    });
+  }
+
+  excluirPessoa() {
+    this.pessoaFisicaService.deletarPessoaFisica(this.userId!).subscribe(() => {
       this.navController.navigateBack('/');
     });
   }
