@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { PessoaFisica } from '../pessoa-fisica.model';
 import { PessoaFisicaService } from '../pessoa-fisica.service';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { ActivatedRoute } from '@angular/router';
 import { CpfPipe } from 'src/app/shared/pipes/cpf.pipe';
 import { CurrencyBrPipe } from 'src/app/shared/pipes/currency-br.pipe';
@@ -18,19 +18,20 @@ export class FormPessoaFisicaPage implements OnInit {
   form!: FormGroup;
   private currencyBrPipe!: CurrencyBrPipe;
   private cpfPipe!: CpfPipe;
-  private datePipe! : DateFormatPipe;
+  private datePipe!: DateFormatPipe;
 
   constructor(
     private navController: NavController,
     private route: ActivatedRoute,
     private pessoaFisicaService: PessoaFisicaService,
+    private toastController: ToastController,
     cpfPipe: CpfPipe,
     currencyBrPipe: CurrencyBrPipe,
     datePipe: DateFormatPipe,
   ) {
     this.cpfPipe = cpfPipe;
-    this.currencyBrPipe = currencyBrPipe
-    this.datePipe = datePipe
+    this.currencyBrPipe = currencyBrPipe;
+    this.datePipe = datePipe;
   }
 
   ngOnInit() {
@@ -70,6 +71,15 @@ export class FormPessoaFisicaPage implements OnInit {
     });
   }
 
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      cssClass: 'custom-toast',
+      duration: 2000,
+    });
+    toast.present();
+  }
+
   onFormSubmit() {
     console.log(this.form.get('dataNascimento')?.value);
     if (this.form.valid) {
@@ -98,6 +108,7 @@ export class FormPessoaFisicaPage implements OnInit {
         this.pessoaFisicaService.editarPessoaFisica(pessoa).subscribe(
           (pessoaEditada) => {
             console.log('Pessoa física editada:', pessoaEditada);
+            this.presentToast('Pessoa física editada com sucesso!');
             this.navController.navigateBack('/');
           },
           (error) => {
@@ -108,6 +119,7 @@ export class FormPessoaFisicaPage implements OnInit {
         this.pessoaFisicaService.adicionarPessoaFisica(pessoa).subscribe(
           (novaPessoa) => {
             console.log('Pessoa física adicionada:', novaPessoa);
+            this.presentToast('Pessoa física adicionada com sucesso!');
             this.navController.navigateBack('/');
           },
           (error) => {
