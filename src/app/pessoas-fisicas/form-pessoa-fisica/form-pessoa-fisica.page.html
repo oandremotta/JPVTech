@@ -5,33 +5,52 @@
     </ion-buttons>
     <ion-title>Formulário</ion-title>
     <ion-buttons slot="primary">
-      <ion-button (click)="onFormSubmit()">
+      <ion-button (click)="onFormSubmit()" [disabled]="form.invalid">
         <ion-icon name="checkmark" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
 <ion-content>
   <ion-card class="form-card">
     <ion-card-content>
+      <div *ngIf="backendErrors.length > 0" class="error-message">
+        <ul>
+          <li *ngFor="let error of backendErrors">{{ error }}</li>
+        </ul>
+      </div>
+
       <form [formGroup]="form" (ngSubmit)="onFormSubmit()">
         <ion-item>
           <ion-label position="floating">Nome completo</ion-label>
           <ion-input formControlName="nomeCompleto" required></ion-input>
+          <div class="error-message" *ngIf="form.get('nomeCompleto')?.invalid && (form.get('nomeCompleto')?.dirty || form.get('nomeCompleto')?.touched)">
+            <p *ngIf="form.get('nomeCompleto')?.hasError('required')">Campo obrigatório</p>
+          </div>
         </ion-item>
         <ion-item>
           <ion-label position="floating">CPF</ion-label>
           <ion-input formControlName="cpf" cpfFormat required maxlength="14"></ion-input>
+          <div class="error-message" *ngIf="form.get('cpf')?.invalid && (form.get('cpf')?.dirty || form.get('cpf')?.touched)">
+            <p *ngIf="form.get('cpf')?.hasError('required')">Campo obrigatório</p>
+          </div>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Data de nascimento</ion-label>
           <ion-input formControlName="dataNascimento" dateFormat required></ion-input>
+          <div class="error-message" *ngIf="form.get('dataNascimento')?.invalid && (form.get('dataNascimento')?.dirty || form.get('dataNascimento')?.touched)">
+            <p *ngIf="form.get('dataNascimento')?.hasError('required')">Campo obrigatório</p>
+          </div>
         </ion-item>
         <ion-item>
           <ion-label position="floating">Valor da renda</ion-label>
           <ion-input formControlName="valorRenda" appCurrencyInput required></ion-input>
+          <div class="error-message" *ngIf="form.get('valorRenda')?.invalid && (form.get('valorRenda')?.dirty || form.get('valorRenda')?.touched)">
+            <p *ngIf="form.get('valorRenda')?.hasError('required')">Campo obrigatório</p>
+          </div>
         </ion-item>
-        <ion-button expand="full" type="submit" class="submit-button">Enviar</ion-button>
+        <ion-button expand="full" type="submit" class="submit-button" [disabled]="form.invalid">Enviar</ion-button>
       </form>
     </ion-card-content>
   </ion-card>

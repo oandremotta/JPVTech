@@ -16,6 +16,8 @@ import { DateFormatPipe } from 'src/app/shared/pipes/date.pipe';
 export class FormPessoaFisicaPage implements OnInit {
   pessoaFisica?: PessoaFisica;
   form!: FormGroup;
+  errorMessages: string[] = [];
+  backendErrors: string[] = [];
   private currencyBrPipe!: CurrencyBrPipe;
   private cpfPipe!: CpfPipe;
   private datePipe!: DateFormatPipe;
@@ -113,6 +115,11 @@ export class FormPessoaFisicaPage implements OnInit {
           },
           (error) => {
             console.error('Erro ao editar pessoa física:', error);
+            if (error && error.error && error.error.errors) {
+              this.backendErrors = error.error.errors;
+            } else {
+              this.backendErrors = ['Erro desconhecido.'];
+            }
           }
         );
       } else {
@@ -124,6 +131,11 @@ export class FormPessoaFisicaPage implements OnInit {
           },
           (error) => {
             console.error('Erro ao adicionar pessoa física:', error);
+            if (error && error.error && error.error.errors) {
+              this.backendErrors = error.error.errors;
+            } else {
+              this.backendErrors = ['Erro desconhecido.'];
+            }
           }
         );
       }
